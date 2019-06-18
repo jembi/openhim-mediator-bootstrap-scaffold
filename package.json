@@ -1,0 +1,8 @@
+{
+  "name": "openhim-bootstrap-mediator",
+  "version": "0.0.1",
+  "description": "Scaffolding mediator to be used for tutorials",
+  "repository": "git@github.com:jembi/openhim-bootstrap-mediator.git",
+  "author": "Jembi Health Systems NPC",
+  "license": "MIT"
+}
