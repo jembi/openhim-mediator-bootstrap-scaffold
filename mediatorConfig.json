@@ -7,12 +7,6 @@
     {
       "name": "Bootstrap Mediator",
       "urlPattern": "/test",
-      "alerts": [],
-      "txRerunAcl": [],
-      "txViewFullAcl": [],
-      "txViewAcl": [],
-      "properties": [],
-      "matchContentTypes": [],
       "routes": [
         {
           "name": "Bootstrap Mediator Route",
