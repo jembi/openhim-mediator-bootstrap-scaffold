@@ -1,15 +1,15 @@
 {
-  "urn": "urn:uuid:964ae905-1497-4f62-b919-b09a324a89b1",
+  "urn": "urn:mediator:tutorial_scaffold",
   "version": "0.0.1",
-  "name": "Bootstrap Mediator",
+  "name": "Scaffold Mediator",
   "description": "Tutorial Scaffold Mediator",
   "defaultChannelConfig": [
     {
-      "name": "Bootstrap Mediator",
-      "urlPattern": "/test",
+      "name": "Bootstrap Scaffold Mediator",
+      "urlPattern": "^/scaffold$",
       "routes": [
         {
-          "name": "Bootstrap Mediator Route",
+          "name": "Bootstrap Scaffold Mediator Route",
           "host": "localhost",
           "path": "/",
           "port": "3000",
@@ -23,7 +23,7 @@
   ],
   "endpoints": [
     {
-      "name": "Bootstrap Mediator Route",
+      "name": "Bootstrap Scaffold Mediator Endpoint",
       "host": "localhost",
       "path": "/",
       "port": "3000",
