@@ -13,6 +13,6 @@ export const OPENHIM_API_URL =
 export const OPENHIM_USERNAME =
   process.env.OPENHIM_USERNAME || 'root@openhim.org'
 export const OPENHIM_PASSWORD =
-  process.env.OPENHIM_PASSWORD || 'openhim-password'
+  process.env.OPENHIM_PASSWORD || 'password'
 export const OPENHIM_TRUST_SELF_SIGNED =
   process.env.OPENHIM_TRUST_SELF_SIGNED === 'true' ? true : false
