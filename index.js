@@ -1,31 +1,23 @@
 'use strict'
 
-const express = require('express')
+import express from 'express';
 // The OpenHIM Mediator Utils is an essential package for quick mediator setup.
 // It handles the OpenHIM authentication, mediator registration, and mediator heartbeat.
-const mediatorUtils = require('openhim-mediator-utils')
+import { registerMediator, fetchConfig, activateHeartbeat } from 'openhim-mediator-utils';
 // Pino is purely used for more readable logging.
-const pino = require('pino')
+import pino, { stdSerializers } from 'pino';
 
 // The constants file gets its content from environmental variable or their default values.
-const {
-  MEDIATOR_PORT,
-  MEDIATOR_HEARTBEAT,
-  OPENHIM_USERNAME,
-  OPENHIM_PASSWORD,
-  OPENHIM_API_URL,
-  OPENHIM_TRUST_SELF_SIGNED,
-  LOG_LEVEL
-} = require('./constants.js')
+import { MEDIATOR_PORT, MEDIATOR_HEARTBEAT, OPENHIM_USERNAME, OPENHIM_PASSWORD, OPENHIM_API_URL, OPENHIM_TRUST_SELF_SIGNED, LOG_LEVEL } from './constants.js';
 // The mediatorConfig file contains some basic configuration settings about the mediator
 // as well as details about the default channel setup.
-const mediatorConfig = require('./mediatorConfig.json')
+import mediatorConfig, { urn } from './mediatorConfig.json';
 
 const logger = pino({
   level: LOG_LEVEL,
   prettyPrint: true,
   serializers: {
-    err: pino.stdSerializers.err
+    err: stdSerializers.err
   }
 })
 
@@ -61,16 +53,16 @@ function start(callback) {
   // the client through any number of mediators involved and all the responses along the way(if the mediators are
   // properly configured). Moreover, if the request fails for any reason all the details are recorded and it can
   // be replayed at a later date to prevent data loss.
-  mediatorUtils.registerMediator(openHimConfig, mediatorConfig, err => {
+  registerMediator(openHimConfig, mediatorConfig, err => {
     if (err) {
       logger.error('Failed to register mediator. Check your Config...')
       logger.error(err)
       process.exit(1)
     }
-    openHimConfig.urn = mediatorConfig.urn
+    openHimConfig.urn = urn
     // Fetching config from the OpenHIM is a useful feature as mediator details can be updated from the OpenHIM console
     // without having to ssh onto the server or restart the service. This reduces dev requirements and service downtime.
-    mediatorUtils.fetchConfig(openHimConfig, (err, newConfig) => {
+    fetchConfig(openHimConfig, (err, newConfig) => {
       if (err) {
         logger.error('Failed to fetch initial config')
         logger.error(err)
@@ -87,7 +79,7 @@ function start(callback) {
           // The mediator heartbeat is a post request sent from the mediator to the OpenHIM core on a set interval that
           // lets the core know that the mediator is up and running. This can be useful for first line support and
           // diagnosing issues.
-          mediatorUtils.activateHeartbeat(openHimConfig)
+          activateHeartbeat(openHimConfig)
         }
         callback(server)
       })
