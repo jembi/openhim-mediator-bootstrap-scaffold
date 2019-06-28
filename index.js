@@ -58,11 +58,13 @@ registerMediator(openhimConfig, mediatorConfig, err => {
     console.error('Failed to register mediator. Check your Config: ', err)
     process.exit(1)
   }
+
+  console.log('Successfully registered mediator!')
 })
 
 fetchConfig(openhimConfig, (err, initialConfig) => {
   if (err) {
-    console.error(err)
+    console.error('Failed to fetch initial config: ', err)
     process.exit(1)
   }
   console.log('Initial Config: ', JSON.stringify(initialConfig))
