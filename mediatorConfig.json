@@ -1,6 +1,6 @@
 {
   "urn": "urn:mediator:tutorial_scaffold",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "name": "Scaffold Mediator",
   "description": "Tutorial Scaffold Mediator",
   "defaultChannelConfig": [
@@ -10,7 +10,7 @@
       "routes": [
         {
           "name": "Bootstrap Scaffold Mediator Route",
-          "host": "localhost",
+          "host": "scaffold",
           "path": "/",
           "port": "3000",
           "primary": true,
@@ -18,17 +18,41 @@
         }
       ],
       "allow": ["admin"],
+      "methods": ["GET", "POST"],
       "type": "http"
     }
   ],
   "endpoints": [
     {
       "name": "Bootstrap Scaffold Mediator Endpoint",
-      "host": "localhost",
+      "host": "scaffold",
       "path": "/",
       "port": "3000",
       "primary": true,
       "type": "http"
+    }
+  ],
+  "configDefs": [
+    {
+      "param": "tutorial",
+      "displayName": "Tutorial variables",
+      "description": "Some variables to demonstrate fetching OpenHIM mediator config",
+      "type": "struct",
+      "array": false,
+      "template": [
+        {
+          "param": "variable_1",
+          "displayName": "Variable 1",
+          "description": "First Variable",
+          "type": "string"
+        },
+        {
+          "param": "variable_2",
+          "displayName": "Variable 2",
+          "description": "Second Variable",
+          "type": "string"
+        }
+      ]
     }
   ]
 }

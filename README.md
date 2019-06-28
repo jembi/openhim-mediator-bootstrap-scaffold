@@ -2,20 +2,15 @@
 
 A mediator scaffolding to be used for tutorials
 
+## Tutorials
+
+[OpenHIM Setup](https://github.com/jembi/openhim-mediator-tutorial/blob/master/0_Starting_OpenHIM.md)
+
+[OpenHIM Bootstrap Mediator Scaffold](https://github.com/jembi/openhim-mediator-tutorial/blob/master/1_Scaffold_OpenHIM_Mediator.md)
+
 ## Getting Started
 
 > This mediator requires an accessible OpenHIM core instance before it can successfully start up.
-
-Environment variables:
-
-* OPENHIM_TRUST_SELF_SIGNED
-* LOG_LEVEL
-* MEDIATOR_PORT
-* MEDIATOR_HEARTBEAT
-* OPENHIM_API_URL
-* OPENHIM_USERNAME
-* OPENHIM_PASSWORD
-* OPENHIM_TRUST_SELF_SIGNED
 
 ### Docker
 
@@ -46,10 +41,4 @@ From the project directory run:
 ```sh
 npm install
 npm start
-```
-
-Environment variable can be included as follows:
-
-```sh
-OPENHIM_TRUST_SELF_SIGNED=true OPENHIM_PASSWORD=password npm start
 ```
