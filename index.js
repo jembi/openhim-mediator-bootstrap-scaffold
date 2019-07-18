@@ -34,38 +34,42 @@ app.all('*', (req, res) => {
 app.listen(3000, () => {
   console.log('Server listening on port 3000...')
 
-  // The activateHeartbeat method returns an Event Emitter which allows the mediator to attach listeners waiting
-  // for specific events triggered by OpenHIM responses to the mediator posting its heartbeat.
-  const emitter = activateHeartbeat(openhimConfig)
+  mediatorSetup()
+})
 
-  emitter.on('error', err => {
-    console.error('Heartbeat failed: ', err)
+const mediatorSetup = () => {
+  // The purpose of registering the mediator is to allow easy communication between the mediator and the OpenHIM.
+  // The details received by the OpenHIM will allow quick channel setup which will allow tracking of requests from
+  // the client through any number of mediators involved and all the responses along the way(if the mediators are
+  // properly configured). Moreover, if the request fails for any reason all the details are recorded and it can
+  // be replayed at a later date to prevent data loss.
+  registerMediator(openhimConfig, mediatorConfig, err => {
+    if (err) {
+      console.error('Failed to register mediator. Check your Config: ', err)
+      process.exit(1)
+    }
+
+    console.log('Successfully registered mediator!')
+
+    fetchConfig(openhimConfig, (err, initialConfig) => {
+      if (err) {
+        console.error('Failed to fetch initial config: ', err)
+        process.exit(1)
+      }
+      console.log('Initial Config: ', JSON.stringify(initialConfig))
+
+      // The activateHeartbeat method returns an Event Emitter which allows the mediator to attach listeners waiting
+      // for specific events triggered by OpenHIM responses to the mediator posting its heartbeat.
+      const emitter = activateHeartbeat(openhimConfig)
+
+      emitter.on('error', err => {
+        console.error('Heartbeat failed: ', err)
+      })
+
+      // The config events is emitted when the heartbeat request posted by the mediator returns data from the OpenHIM.
+      emitter.on('config', newConfig => {
+        console.log('Received updated config:', JSON.stringify(newConfig))
+      })
+    })
   })
-
-  // The config events is emitted when the heartbeat request posted by the mediator returns data from the OpenHIM.
-  emitter.on('config', newConfig => {
-    console.log('Received updated config:', JSON.stringify(newConfig))
-  })
-})
-
-// The purpose of registering the mediator is to allow easy communication between the mediator and the OpenHIM.
-// The details received by the OpenHIM will allow quick channel setup which will allow tracking of requests from
-// the client through any number of mediators involved and all the responses along the way(if the mediators are
-// properly configured). Moreover, if the request fails for any reason all the details are recorded and it can
-// be replayed at a later date to prevent data loss.
-registerMediator(openhimConfig, mediatorConfig, err => {
-  if (err) {
-    console.error('Failed to register mediator. Check your Config: ', err)
-    process.exit(1)
-  }
-
-  console.log('Successfully registered mediator!')
-})
-
-fetchConfig(openhimConfig, (err, initialConfig) => {
-  if (err) {
-    console.error('Failed to fetch initial config: ', err)
-    process.exit(1)
-  }
-  console.log('Initial Config: ', JSON.stringify(initialConfig))
-})
+}
