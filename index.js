@@ -27,7 +27,7 @@ const app = express()
 
 // Any request regardless of request type or url path to the mediator port will be caught here
 // and trigger the Hello World response.
-app.all('*', (req, res) => {
+app.all('*', (_req, res) => {
   res.send('Hello World')
 })
 
