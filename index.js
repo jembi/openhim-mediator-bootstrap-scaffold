@@ -45,16 +45,14 @@ const mediatorSetup = () => {
   // be replayed at a later date to prevent data loss.
   registerMediator(openhimConfig, mediatorConfig, err => {
     if (err) {
-      console.error('Failed to register mediator. Check your Config: ', err)
-      process.exit(1)
+      throw new Error(`Failed to register mediator. Check your Config. ${err}`)
     }
 
     console.log('Successfully registered mediator!')
 
     fetchConfig(openhimConfig, (err, initialConfig) => {
       if (err) {
-        console.error('Failed to fetch initial config: ', err)
-        process.exit(1)
+        throw new Error(`Failed to fetch initial config. ${err}`)
       }
       console.log('Initial Config: ', JSON.stringify(initialConfig))
 
