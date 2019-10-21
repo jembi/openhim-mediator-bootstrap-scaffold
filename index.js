@@ -61,7 +61,7 @@ const mediatorSetup = () => {
       const emitter = activateHeartbeat(openhimConfig)
 
       emitter.on('error', err => {
-        console.error('Heartbeat failed: ', err)
+        console.error(`Heartbeat failed: ${err}`)
       })
 
       // The config events is emitted when the heartbeat request posted by the mediator returns data from the OpenHIM.
